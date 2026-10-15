@@ -32,3 +32,19 @@ Motion defaults: 0.75s reveal, 0.35s label roll, 0.7s carousel transition, 1.3s 
 ## Verification
 
 See `VERIFICATION.md` for checks and remaining limitations.
+
+## GitHub deployment
+
+The GitHub Actions workflow builds and checks the site on every push to `main`.
+It exports with `/Real_estate` as its base path for GitHub Pages. Local development
+continues to run at the root URL.
+
+GitHub currently rejects Pages for this private repository under the account's
+plan. To activate hosting, use a plan supporting private-repository Pages or
+make the repository public, enable Pages with GitHub Actions in repository
+settings, and set the repository variable `ENABLE_GITHUB_PAGES` to `true`.
+Then run the workflow. The expected URL after successful deployment is
+https://sumitchaskar7000.github.io/Real_estate/ .
+
+The existing private hosted site remains available at
+https://iclapss-residences.sumit-chaska-1044.chatgpt.site .

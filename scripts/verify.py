@@ -1,6 +1,8 @@
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlparse, unquote
+import os
+base_path=os.environ.get('NEXT_PUBLIC_BASE_PATH','')
 root=Path('out'); errors=[]; checked=0
 class Page(HTMLParser):
  def handle_starttag(self,tag,attrs):
@@ -8,7 +10,9 @@ class Page(HTMLParser):
   for key in ['href','src']:
    u=d.get(key,'')
    if not u.startswith('/') or u.startswith('//'):continue
-   p=unquote(urlparse(u).path).lstrip('/')
+   p=unquote(urlparse(u).path)
+   if base_path and p.startswith(base_path+'/'):p=p[len(base_path):]
+   p=p.lstrip('/')
    target=root/p
    if not (target.is_file() or (target/'index.html').is_file()):errors.append((str(self.path),u))
 for path in root.rglob('*.html'):
