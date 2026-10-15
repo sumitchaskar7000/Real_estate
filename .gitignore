@@ -3,3 +3,5 @@ node_modules/
 out/
 *.tsbuildinfo
 .openai/*.tar.gz
+
+.next-build/
