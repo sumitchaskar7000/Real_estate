@@ -1,0 +1,6 @@
+import {articles} from '@/lib/data';
+import {Photo,Button} from '@/components/site';
+import {notFound} from 'next/navigation';
+export function generateStaticParams(){return articles.map(a=>({slug:a.slug}))}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const a=articles.find(a=>a.slug===slug);return {title:a?.title,description:a?.excerpt,alternates:{canonical:`/journal/${slug}`}}}
+export default async function Article({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const index=articles.findIndex(a=>a.slug===slug);if(index<0)notFound();const a=articles[index];const next=articles[(index+1)%articles.length];return <><header className="article-hero framed"><Photo name={a.cover} alt={a.title} priority/><div className="image-shade"/><div><span className="eyebrow">THE JOURNAL / {a.category}</span><h1>{a.title}</h1></div></header><article className="article-body"><p className="article-lead">{a.excerpt}</p>{a.sections.map(s=><section key={s.heading}><h2>{s.heading}</h2><p>{s.text}</p></section>)}<div className="article-end"><span className="eyebrow">CONTINUE EXPLORING</span><h2>{next.title}</h2><Button href={`/journal/${next.slug}`}>Next story</Button></div></article></>}

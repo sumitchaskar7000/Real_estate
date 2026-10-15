@@ -1,0 +1,3 @@
+import {Photo,ContactForm} from '@/components/site';
+export const metadata={title:'Let’s talk',alternates:{canonical:'/contact'}};
+export default function Contact(){return <section className="contact-page framed"><Photo name="exterior" alt="A contemporary home connected to the landscape" priority/><div className="image-shade"/><div className="contact-panel"><div className="contact-copy"><span className="eyebrow">A CONVERSATION IS A GOOD START</span><h1>Your next chapter.<br/>Let’s talk.</h1><span className="contact-symbol">i.</span><p>Whether you have a place in mind or you’re still finding your direction, we’d love to hear what home means to you.</p></div><ContactForm/></div></section>}
