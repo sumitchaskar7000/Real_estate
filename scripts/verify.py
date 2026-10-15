@@ -11,7 +11,9 @@ class Page(HTMLParser):
    u=d.get(key,'')
    if not u.startswith('/') or u.startswith('//'):continue
    p=unquote(urlparse(u).path)
-   if base_path and p.startswith(base_path+'/'):p=p[len(base_path):]
+   if base_path:
+    if not p.startswith(base_path+'/'):errors.append((str(self.path),'Missing base path: '+u))
+    else:p=p[len(base_path):]
    p=p.lstrip('/')
    target=root/p
    if not (target.is_file() or (target/'index.html').is_file()):errors.append((str(self.path),u))
@@ -19,6 +21,7 @@ for path in root.rglob('*.html'):
  if path.name=='404.html':continue
  page=Page();page.path=path;page.feed(path.read_text());checked+=1
  if 'bernini' in path.read_text().lower():errors.append((str(path),'Incorrect branding'))
+if checked<23:errors.append(('out','Expected at least 23 HTML documents'))
 print(f'Checked {checked} exported HTML documents, local links, assets and branding.')
 if errors:
  for e in errors:print(e)
